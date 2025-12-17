@@ -1,11 +1,8 @@
 from __future__ import annotations
 
 from homeassistant.components.sensor import SensorEntity
-from homeassistant.helpers.update_coordinator import (
-    CoordinatorEntity,
-)
+from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN
 from .coordinator import EGDTariffCoordinator
 
 
@@ -14,26 +11,19 @@ async def async_setup_entry(hass, entry, async_add_entities):
     await coordinator.async_config_entry_first_refresh()
 
     async_add_entities(
-        [
-            EGDTariffStateSensor(coordinator),
-            EGDTariffPriceSensor(
-                coordinator,
-                "nt_price",
-                "EG.D NT Price",
-                "egd_nt_price",
-            ),
-            EGDTariffPriceSensor(
-                coordinator,
-                "vt_price",
-                "EG.D VT Price",
-                "egd_vt_price",
-            ),
-            EGDTariffPriceSensor(
-                coordinator,
-                "current_price",
-                "EG.D Current Price",
-                "egd_current_price",
-            ),
-        ],
+        [EGDTariffStateSensor(coordinator)],
         update_before_add=True,
     )
+
+
+class EGDTariffStateSensor(CoordinatorEntity, SensorEntity):
+    _attr_name = "EG.D Tariff State"
+    _attr_icon = "mdi:flash"
+    _attr_unique_id = "egd_tariff_state"
+
+    def __init__(self, coordinator):
+        super().__init__(coordinator)
+
+    @property
+    def native_value(self):
+        return self.coordinator.data["state"]
