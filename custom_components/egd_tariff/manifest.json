@@ -1,0 +1,10 @@
+{
+  "domain": "egd_tariff",
+  "name": "EG.D Tariff (NT/VT)",
+  "version": "0.1.0",
+  "documentation": "https://github.com/senkmat/ha-egd-tariff",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": ["@senkmat"],
+  "iot_class": "local_polling"
+}
