@@ -20,16 +20,15 @@ class EGDTariffCoordinator(DataUpdateCoordinator):
             hass,
             _LOGGER,
             name=DOMAIN,
-            update_interval=timedelta(
-                seconds=UPDATE_INTERVAL_SECONDS
-            ),
+            update_interval=timedelta(seconds=UPDATE_INTERVAL_SECONDS),
         )
 
     async def _async_update_data(self):
-        """Fetch tariff data (FAKE for now)."""
+        """Fetch NT/VT tariff data (temporary static logic)."""
+
         now = dt_util.now().time()
 
-        # FAKE NT schedule for Brno
+        # Dočasný NT rozpis (Brno – FAKE, jen pro logiku)
         nt_blocks = [
             (time(0, 0), time(6, 0)),
             (time(13, 0), time(15, 0)),
@@ -37,9 +36,19 @@ class EGDTariffCoordinator(DataUpdateCoordinator):
 
         is_nt = any(start <= now < end for start, end in nt_blocks)
 
-        return {
+        nt_price = 2.49
+        vt_price = 4.89
+
+        data = {
             "is_nt": is_nt,
             "state": "NT" if is_nt else "VT",
             "nt_blocks": nt_blocks,
+            "nt_price": nt_price,
+            "vt_price": vt_price,
+            "current_price": nt_price if is_nt else vt_price,
             "last_update": datetime.now(),
         }
+
+        _LOGGER.debug("EG.D tariff data updated: %s", data)
+
+        return data
