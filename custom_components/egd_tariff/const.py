@@ -1,0 +1,1 @@
+DOMAIN = "egd_tariff"
