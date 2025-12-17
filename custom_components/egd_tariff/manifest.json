@@ -1,7 +1,7 @@
 {
   "domain": "egd_tariff",
   "name": "EG.D Tariff (NT/VT)",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "documentation": "https://github.com/senkmat/ha-egd-tariff",
   "issue_tracker": "https://github.com/senkmat/ha-egd-tariff/issues",
   "requirements": [],
