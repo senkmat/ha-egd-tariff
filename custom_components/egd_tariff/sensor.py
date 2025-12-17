@@ -14,23 +14,26 @@ async def async_setup_entry(hass, entry, async_add_entities):
     await coordinator.async_config_entry_first_refresh()
 
     async_add_entities(
-        [EGDTariffStateSensor(coordinator)],
+        [
+            EGDTariffStateSensor(coordinator),
+            EGDTariffPriceSensor(
+                coordinator,
+                "nt_price",
+                "EG.D NT Price",
+                "egd_nt_price",
+            ),
+            EGDTariffPriceSensor(
+                coordinator,
+                "vt_price",
+                "EG.D VT Price",
+                "egd_vt_price",
+            ),
+            EGDTariffPriceSensor(
+                coordinator,
+                "current_price",
+                "EG.D Current Price",
+                "egd_current_price",
+            ),
+        ],
         update_before_add=True,
     )
-
-
-class EGDTariffStateSensor(
-    CoordinatorEntity, SensorEntity
-):
-    """Sensor showing NT / VT state."""
-
-    _attr_name = "EG.D Tariff State"
-    _attr_icon = "mdi:flash"
-
-    def __init__(self, coordinator: EGDTariffCoordinator):
-        super().__init__(coordinator)
-        self._attr_unique_id = "egd_tariff_state"
-
-    @property
-    def native_value(self):
-        return self.coordinator.data["state"]
