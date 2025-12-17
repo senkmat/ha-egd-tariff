@@ -1,12 +1,10 @@
 from __future__ import annotations
 
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 import logging
 
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.update_coordinator import (
-    DataUpdateCoordinator,
-)
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.util import dt as dt_util
 
 from .const import DOMAIN, UPDATE_INTERVAL_SECONDS
@@ -22,7 +20,7 @@ class EGDTariffCoordinator(DataUpdateCoordinator):
             hass,
             _LOGGER,
             name=DOMAIN,
-            update_interval=dt_util.timedelta(
+            update_interval=timedelta(
                 seconds=UPDATE_INTERVAL_SECONDS
             ),
         )
@@ -31,7 +29,7 @@ class EGDTariffCoordinator(DataUpdateCoordinator):
         """Fetch tariff data (FAKE for now)."""
         now = dt_util.now().time()
 
-        # FAKE NT schedule for Brno (example)
+        # FAKE NT schedule for Brno
         nt_blocks = [
             (time(0, 0), time(6, 0)),
             (time(13, 0), time(15, 0)),
