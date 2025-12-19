@@ -9,6 +9,8 @@ TARIFFS = {
         "Brno": [
             (time(22, 0), time(23, 59)),
             (time(0, 0), time(6, 0)),
+            (time(8, 0), time(9, 0)),
+            (time(10, 0), time(11, 0)),
             (time(12, 0), time(14, 0)),
         ]
     }
