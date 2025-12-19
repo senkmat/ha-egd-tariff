@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import logging
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+
+from .tariffs import TARIFFS
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -17,19 +19,28 @@ class EGDTariffCoordinator(DataUpdateCoordinator):
             hass,
             _LOGGER,
             name="EG.D Tariff Coordinator",
-            update_interval=timedelta(minutes=5),
+            update_interval=timedelta(minutes=1),
         )
 
-    async def _async_update_data(self):
-        """
-        Fetch tariff data.
+        self._tariff = "A1B6DP5"
+        self._region = "Brno"
 
-        ZATÍM jen placeholder – vrátíme statická data,
-        aby integrace byla stabilní.
-        """
-        # TODO: tady později stáhneme data z EG.D
+    async def _async_update_data(self):
+        now = datetime.now().time()
+        intervals = TARIFFS[self._tariff][self._region]
+
+        state = "VT"
+        for start, end in intervals:
+            if start <= end:
+                if start <= now <= end:
+                    state = "NT"
+            else:
+                # interval přes půlnoc
+                if now >= start or now <= end:
+                    state = "NT"
+
         return {
-            "state": "NT",   # nebo "VT"
-            "price_nt": 0.0,
+            "state": state,
+            "price_nt": 0.0,   # připraveno do budoucna
             "price_vt": 0.0,
         }
