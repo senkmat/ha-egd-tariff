@@ -1,14 +1,11 @@
 {
   "domain": "egd_tariff",
-  "name": "EG.D Tariff (NT/VT)",
-  "version": "0.1.11",
+  "name": "EG.D HDO Tariff",
   "documentation": "https://github.com/senkmat/ha-egd-tariff",
-  "issue_tracker": "https://github.com/senkmat/ha-egd-tariff/issues",
-  "requirements": [
-    "beautifulsoup4==4.12.3",
-    "lxml==5.2.1"
-  ],
+  "dependencies": [],
   "codeowners": ["@senkmat"],
-  "config_flow": true,
-  "platforms": ["sensor"]
+  "issue_tracker": "https://github.com/senkmat/ha-egd-tariff/issues",
+  "iot_class": "cloud_polling",
+  "version": "0.1.12",
+  "requirements": ["aiohttp", "async_timeout"]
 }
